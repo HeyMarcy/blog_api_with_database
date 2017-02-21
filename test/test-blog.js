@@ -41,6 +41,38 @@ describe('Blog Endpoint Tests', function() {
     });
   });
 
-  
+  it('should update a blog post', function() {
+    const updatePost = {
+      title: 'adfasdf',
+      content: 'sojboisjof',
+      author: 'me',
+      publishDate: 2018
+    }
+    return chai.request(app)
+      .get('/blog-post')
+      .then(function(res) {
+        updatePost.id = res.body[0].id;
+        return chai.request(app)
+          .put(`/blog-post/${updatePost.id}`)
+          .send(updatePost)
+    })
+    .then(function(res) {
+      res.should.have.status(200);
+      res.should.be.json;
+      // res.body.should.deep.equal(updatePost);
+    });
+  });
+
+  it('Delete a blog Post', function() {
+    return chai.request(app)
+      .get('/blog-post')
+      .then(function(res) {
+        return chai.request(app)
+          .delete(`/blog-post/${res.body[0].id}`)
+      })
+      .then(function(res) {
+        res.should.have.status(204);
+      });
+  });
 
 });
