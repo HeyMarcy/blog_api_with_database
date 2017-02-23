@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const blogPostSchema = mongoose.Schema({
   title: {type: String, required: true},
   content: String,
-  author: String,
-  publishDate: Number
+  author: {type: String, required: true},
+  publishDate: {type: Number, required: true}
 });
 
 
@@ -15,14 +15,14 @@ blogPostSchema.methods.apiRepr = function() {
       title: this.title,
       content: this.content,
       author: this.author,
-      publishDate: this.publishDate
+      publishDate: this.publishDate,
+      id: this._id
     }
 }
 
 const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
 module.exports = {BlogPost};
-
 
 
 
